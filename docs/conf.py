@@ -62,6 +62,7 @@ html_sidebars = {
     ]
 }
 
-mupub_path = os.path.abspath('../../mupub/docs/_build/html')
+#mupub_path = os.path.abspath('../../mupub/docs/_build/html')
+mupub_path = 'http://mutopia-rewrite.readthedocs.io/en/latest/'
 intersphinx_mapping = { 'python': ('https://docs.python.org/3', None),
                         'mupub': (mupub_path, None), }
