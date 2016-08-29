@@ -7,7 +7,8 @@ import configurations
 sys.path.insert(0, os.path.abspath('..'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'musite.settings')
 os.environ.setdefault('DJANGO_CONFIGURATION', 'Development')
-os.environ.setdefault('DJANGO_SECRET_KEY', os.getenv('MU_SECRET_KEY'))
+os.environ.setdefault('DJANGO_SECRET_KEY',
+                      os.getenv('MU_SECRET_KEY', 'None'))
 configurations.setup()
 
 extensions = [
