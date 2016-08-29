@@ -1,6 +1,10 @@
 musite - A `MutopiaProject <http://www.mutopiaproject.org>`_ web site
 rewrite in `Django <http://djangoproject.com>`_
 
+.. image:: https://readthedocs.org/projects/mudev-documentation/badge/?version=latest
+:target: http://mudev-documentation.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
 
 Synopsis
 --------
