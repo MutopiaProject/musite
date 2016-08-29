@@ -2,8 +2,8 @@ musite - A `MutopiaProject <http://www.mutopiaproject.org>`_ web site
 rewrite in `Django <http://djangoproject.com>`_
 
 .. image:: https://readthedocs.org/projects/mudev-documentation/badge/?version=latest
-:target: http://mudev-documentation.readthedocs.io/en/latest/?badge=latest
-:alt: Documentation Status
+   :target: http://mudev-documentation.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 
 Synopsis
@@ -15,13 +15,13 @@ site because the templating engine uses the same CSS files and
 Bootstrap as the existing site. Underneath the covers, however, it is
 entirely different.
 
-   - Dynamic page creation for easier maintenance.
+- Dynamic page creation for easier maintenance.
 
-   - The entire MutopiaProject catalogue is kept within a
-     `PostgreSQL <https://www.postgresql.org/>`_
-     database for easy maintenance and analysis.
+- The entire MutopiaProject catalogue is kept within a
+   `PostgreSQL <https://www.postgresql.org/>`_
+   database for easy maintenance and analysis.
 
-   - Supports full-text-search.
+- Supports full-text-search.
 
 
 Overview
@@ -33,11 +33,11 @@ code and html templates.
 
 In Django-speak,
 
-  - The ``Project`` is *musite*
+- The ``Project`` is *musite*
 
-  - The main website ``app`` is *mutopia*
+- The main website ``app`` is *mutopia*
 
-  - An auxilliary ``app``, *update*, is provided for maintaining the
+- An auxilliary ``app``, *update*, is provided for maintaining the
     underlying database.
 
 You will find top-level project code under ``musite`` but the meat of
