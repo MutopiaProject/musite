@@ -1,0 +1,28 @@
+# emacs backup files
+*~
+
+# static files collected by django
+staticfiles/
+
+# sphinx builds
+docs/_build/
+
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Translations
+*.mo
+*.pot

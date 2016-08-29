@@ -1,0 +1,611 @@
+[
+{
+  "model": "update.instrumentmap",
+  "pk": "altos",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "bagpipes",
+  "fields": {
+    "instrument": "Bagpipe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "baritono",
+  "fields": {
+    "instrument": "Euphonium"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "baryton",
+  "fields": {
+    "instrument": "Baritone"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "basse continue",
+  "fields": {
+    "instrument": "Continuo"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "basses",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "basset",
+  "fields": {
+    "instrument": "Clarinet"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "basse-tailles",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "basso continuo",
+  "fields": {
+    "instrument": "Continuo"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "bassoons",
+  "fields": {
+    "instrument": "Bassoon"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "caccia",
+  "fields": {
+    "instrument": "Oboe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "capella",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "cappella",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "castratos",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "'cello",
+  "fields": {
+    "instrument": "Cello"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "cellos",
+  "fields": {
+    "instrument": "Cello"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "cembalo",
+  "fields": {
+    "instrument": "Harpsichord"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "chamber orchestra",
+  "fields": {
+    "instrument": "Orchestra"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "chor",
+  "fields": {
+    "instrument": "Choir"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "clarinets",
+  "fields": {
+    "instrument": "Clarinet"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "continue",
+  "fields": {
+    "instrument": "Continuo"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "contralt1",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "contralto",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "contre",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "cornettinos",
+  "fields": {
+    "instrument": "Cornettino"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "cornetts",
+  "fields": {
+    "instrument": "Cornet"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "corno",
+  "fields": {
+    "instrument": "Horn"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "double bass",
+  "fields": {
+    "instrument": "Doublebass"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "fagotto",
+  "fields": {
+    "instrument": "Bassoon"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "flauto",
+  "fields": {
+    "instrument": "Flute"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "flutes",
+  "fields": {
+    "instrument": "Flute"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "fl\u00fbtes",
+  "fields": {
+    "instrument": "Flute"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "f\u00fcnfstimmigen",
+  "fields": {
+    "instrument": "Choir"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "gambo violl",
+  "fields": {
+    "instrument": "Viol"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "guitare",
+  "fields": {
+    "instrument": "Guitar"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "guitarre",
+  "fields": {
+    "instrument": "Guitar"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "guitars",
+  "fields": {
+    "instrument": "Guitar"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "harpischord",
+  "fields": {
+    "instrument": "Harpsichord"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "haute-contre",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "horns",
+  "fields": {
+    "instrument": "Horn"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "lautenwerk",
+  "fields": {
+    "instrument": "Harpsichord"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "lute-harpsichord",
+  "fields": {
+    "instrument": "Harpsichord"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "male choir ttbb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "mandolins",
+  "fields": {
+    "instrument": "Mandolin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "nfstimmigen",
+  "fields": {
+    "instrument": "Choir"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "oboa",
+  "fields": {
+    "instrument": "Oboe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "oboes",
+  "fields": {
+    "instrument": "Oboe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "orgue",
+  "fields": {
+    "instrument": "Organ"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "recorders",
+  "fields": {
+    "instrument": "Recorder"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "saatb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "satb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "sattb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "soprani",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "sopranos",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "ssaa",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "ssaatb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "ssatb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "ssattb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "taille",
+  "fields": {
+    "instrument": "Oboe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tailles",
+  "fields": {
+    "instrument": "Oboe"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tamburo",
+  "fields": {
+    "instrument": "Drum"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tenor",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tenore",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tenori",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tenors",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "trombon",
+  "fields": {
+    "instrument": "Trombone"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "trombones",
+  "fields": {
+    "instrument": "Trombone"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "trumpets",
+  "fields": {
+    "instrument": "Trumpet"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "ttbb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "tttb",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "viola da gamba",
+  "fields": {
+    "instrument": "Viol"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "viola de gambo",
+  "fields": {
+    "instrument": "Viol"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violas",
+  "fields": {
+    "instrument": "Viola"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "viole",
+  "fields": {
+    "instrument": "Viol"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "viole de gambo",
+  "fields": {
+    "instrument": "Viol"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violincello",
+  "fields": {
+    "instrument": "Cello"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violine",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violini",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violino",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violins",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violon",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violoncello",
+  "fields": {
+    "instrument": "Cello"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violone",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "violons",
+  "fields": {
+    "instrument": "Violin"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "vocal",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "voices",
+  "fields": {
+    "instrument": "Voice"
+  }
+},
+{
+  "model": "update.instrumentmap",
+  "pk": "voise",
+  "fields": {
+    "instrument": "Voice"
+  }
+}
+]
