@@ -18,8 +18,8 @@ entirely different.
 - Dynamic page creation for easier maintenance.
 
 - The entire MutopiaProject catalogue is kept within a
-   `PostgreSQL <https://www.postgresql.org/>`_
-   database for easy maintenance and analysis.
+  `PostgreSQL <https://www.postgresql.org/>`_
+  database for easy maintenance and analysis.
 
 - Supports full-text-search.
 
@@ -38,7 +38,7 @@ In Django-speak,
 - The main website ``app`` is *mutopia*
 
 - An auxilliary ``app``, *update*, is provided for maintaining the
-    underlying database.
+  underlying database.
 
 You will find top-level project code under ``musite`` but the meat of
 the web implementation is in ``mutopia``. If you are not familiar with
