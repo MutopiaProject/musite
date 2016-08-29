@@ -13,7 +13,8 @@ if __name__ == "__main__":
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'musite.settings')
     os.environ.setdefault('DJANGO_CONFIGURATION', settings.title())
-    os.environ.setdefault('DJANGO_SECRET_KEY', os.getenv('MU_SECRET_KEY'))
+    os.environ.setdefault('DJANGO_SECRET_KEY',
+                          os.getenv('MU_SECRET_KEY', 'None'))
 
     from configurations.management import execute_from_command_line
 
