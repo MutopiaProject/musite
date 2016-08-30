@@ -3,3 +3,5 @@ pylint==1.6.4
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.4
 sphinx==1.4.6
+docutils>=0.10
+setuptools>=20.0
