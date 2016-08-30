@@ -11,6 +11,8 @@ else:
     settings = 'development'
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "musite.settings")
-os.environ.setdefault('DJANGO_CONFIGURATION', 'Dev')
+os.environ.setdefault('DJANGO_CONFIGURATION', settings.title())
+os.environ.setdefault('DJANGO_SECRET_KEY',
+                      os.getenv('MU_SECRET_KEY', 'None'))
 
 application = get_wsgi_application()
