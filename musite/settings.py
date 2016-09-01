@@ -9,13 +9,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import dj_database_url
 from configurations import Configuration, values
 
 class Common(Configuration):
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -26,7 +24,6 @@ class Common(Configuration):
     DEBUG = values.BooleanValue(False)
 
     ALLOWED_HOSTS = []
-
 
     # Application definition
 
@@ -73,15 +70,17 @@ class Common(Configuration):
 
     WSGI_APPLICATION = 'musite.wsgi.application'
 
-
     # Database
     # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
     DATABASES = {
-        'default':
-            dj_database_url.config(
-                default='postgres://muuser:mumusic@127.0.0.1:5433/mutodb'
-            )
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'mutodb',
+            'USER': 'muuser',
+            'PASSWORD': 'mumusic',
+            'HOST': 'localhost',
+            'PORT': '5433',
+        }
     }
 
 
@@ -106,21 +105,14 @@ class Common(Configuration):
 
     # Internationalization
     # https://docs.djangoproject.com/en/1.10/topics/i18n/
-
     LANGUAGE_CODE = 'en-us'
-
     TIME_ZONE = 'UTC'
-
     USE_I18N = True
-
     USE_L10N = True
-
     USE_TZ = True
-
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
     STATIC_URL = '/static/'
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static'),
@@ -166,7 +158,23 @@ class Development(Common):
 class Production(Common):
     """
     In-production settings
+
     """
+
+    if 'RDS_HOSTNAME' in os.environ:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.environ['RDS_DB_NAME'],
+                'USER': os.environ['RDS_USERNAME'],
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+                'HOST': os.environ['RDS_HOSTNAME'],
+                'PORT': os.environ['RDS_PORT'],
+            }
+        }
+
+    STATIC_URL = '/staticfiles/'
+    STATIC_ROOT = os.path.join(Common.BASE_DIR, '..', 'www', 'staticfiles')
 
     SESSION_COOKIE_SECURE = values.BooleanValue(True)
     SECURE_BROWSER_XSS_FILTER = values.BooleanValue(True)

@@ -5,3 +5,7 @@ pylint-plugin-utils==0.2.4
 sphinx==1.4.6
 docutils>=0.10
 setuptools>=20.0
+
+# nascient: amazon services
+# boto3
+# awscli
