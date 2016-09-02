@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
+CREATE_UNACCENT = "CREATE EXTENSION IF NOT EXISTS unaccent"
+
 MV_CREATE = """
 CREATE MATERIALIZED VIEW mutopia_search_view
 (id, piece_id, document)
@@ -42,6 +44,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL(CREATE_UNACCENT),
         migrations.CreateModel(
             name='SearchTerm',
             fields=[
