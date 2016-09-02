@@ -172,6 +172,17 @@ class Production(Common):
                 'PORT': os.environ['RDS_PORT'],
             }
         }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'mutopia_archive',
+                'USER': 'mupublisher',
+                'PASSWORD': 'ChopinFTW',
+                'HOST': 'musite-devo.chgf8mujp4sf.us-west-2.rds.amazonaws.com',
+                'PORT': '5432',
+            }
+        }
 
     STATIC_URL = '/staticfiles/'
     STATIC_ROOT = os.path.join(Common.BASE_DIR, '..', 'www', 'staticfiles')
