@@ -155,12 +155,7 @@ class Development(Common):
     }
 
 
-class Production(Common):
-    """
-    In-production settings
-
-    """
-
+class Staging(Common):
     if 'RDS_HOSTNAME' in os.environ:
         DATABASES = {
             'default': {
@@ -172,20 +167,18 @@ class Production(Common):
                 'PORT': os.environ['RDS_PORT'],
             }
         }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'mutopia_archive',
-                'USER': 'mupublisher',
-                'PASSWORD': 'ChopinFTW',
-                'HOST': 'musite-devo.chgf8mujp4sf.us-west-2.rds.amazonaws.com',
-                'PORT': '5432',
-            }
-        }
-
+    DEBUG = values.BooleanValue(True)
     STATIC_URL = '/staticfiles/'
     STATIC_ROOT = os.path.join(Common.BASE_DIR, '..', 'www', 'staticfiles')
+}    
+
+
+class Production(Staging):
+    """
+    In-production settings, staging with security
+
+    """
+    DEBUG = values.BooleanValue(False)
 
     SESSION_COOKIE_SECURE = values.BooleanValue(True)
     SECURE_BROWSER_XSS_FILTER = values.BooleanValue(True)
