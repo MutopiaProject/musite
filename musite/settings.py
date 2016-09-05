@@ -169,7 +169,7 @@ class Staging(Common):
         }
     DEBUG = values.BooleanValue(True)
     STATIC_URL = '/staticfiles/'
-    STATIC_ROOT = os.path.join(Common.BASE_DIR, '..', 'www', 'staticfiles')
+    STATIC_ROOT = os.path.join(Common.BASE_DIR, 'staticfiles')
 
 
 class Production(Staging):
