@@ -9,6 +9,8 @@
 """
 from django.db import models
 from django.utils.text import slugify
+from mutopia.utils import FTP_URL
+
 
 class Composer(models.Model):
     """
@@ -353,10 +355,10 @@ class AssetMap(models.Model):
 
     #:The reference to the piece. When new pieces are created this is
     #:left null and filled in when the RDF file is processed.
-    piece = models.OneToOneField(Piece,
-                                 models.SET_NULL,
-                                 blank=True,
-                                 null=True)
+    piece = models.ForeignKey(Piece,
+                              models.SET_NULL,
+                              blank=True,
+                              null=True)
 
     def __str__(self):
         return '/'.join([self.folder, self.name,])
@@ -367,27 +369,27 @@ class AssetMap(models.Model):
 
     def get_midi(self):
         """Return a full pathname for midi files."""
-        return '/'.join([self.folder, self.midi_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.midi_spec(),])
 
     def get_ly(self):
         """Return a full pathname for LilyPond files."""
-        return '/'.join([self.folder, self.ly_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.ly_spec(),])
 
     def get_ps_a4(self):
         """Return a full pathname for A4 PostScript files."""
-        return '/'.join([self.folder, self.ps_a4_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.ps_a4_spec(),])
 
     def get_ps_let(self):
         """Return a full pathname for Letter PostScript files."""
-        return '/'.join([self.folder, self.ps_let_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.ps_let_spec(),])
 
     def get_pdf_a4(self):
         """Return a full pathname for A4 PDF files."""
-        return '/'.join([self.folder, self.pdf_a4_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.pdf_a4_spec(),])
 
     def get_pdf_let(self):
         """Return a full pathname for Letter PDF files."""
-        return '/'.join([self.folder, self.pdf_let_spec(),])
+        return '/'.join([FTP_URL, self.folder, self.pdf_let_spec(),])
 
     def midi_spec(self):
         """Return a filename for the midi file(s)."""

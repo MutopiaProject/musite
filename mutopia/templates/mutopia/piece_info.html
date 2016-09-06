@@ -36,7 +36,7 @@
           <dt>Date of composition</dt>
           <dd>{{piece.date_composed|default:"Not known"}}</dd>
           <dt>Source</dt>
-          <dd>{{piece.source}}</dd>
+          <dd>{{piece.source|safe}}</dd>
           <dt>Copyright</dt>
           <dd><a href="{% url 'legal' %}">{{piece.license.name}}</a></dd>
           <dt>Last updated</dt>

@@ -9,7 +9,7 @@
   <div class="col-sm-12">
     <h2>{% block headline %}{% endblock %}</h2>
     <ul>
-      {% for piece in page %}
+      {% for piece in pager %}
       <li><a href="{% url 'piece-info' piece.piece_id %}">{{piece.title}}</a>
         {% if piece.opus|length > 0 %}, {{piece.opus}}{% endif %}
         {% if piece.date_composed|length > 0 %}, {{piece.date_composed}}{% endif %}

@@ -79,7 +79,7 @@ def piece_by_instrument(request, instrument):
 
     context = {
         'keyform': KeySearchForm(auto_id=False),
-        'page': page,
+        'pager': page,
         'instrument': instrument
     }
     return render(request, 'mutopia/piece_instrument.html', context)
@@ -112,7 +112,7 @@ def piece_by_style(request, slug):
 
     context = {
         'keyform': KeySearchForm(auto_id=False),
-        'page': page,
+        'pager': page,
         'style': style
     }
     return render(request, 'mutopia/piece_style.html', context)
@@ -140,7 +140,7 @@ def piece_by_composer(request, composer):
 
     context = {
         'keyform': KeySearchForm(auto_id=False),
-        'page': page,
+        'pager': page,
         'composer': comp.rawstr()
     }
     return render(request, 'mutopia/piece_composer.html', context)
@@ -168,7 +168,7 @@ def piece_by_version(request, version):
 
     context = {
         'keyform': KeySearchForm(auto_id=False),
-        'page': page,
+        'pager': page,
         'version': version
     }
     return render(request, 'mutopia/piece_version.html', context)
@@ -179,7 +179,7 @@ def collection_list(request, col_tag):
 
     :param Request request: The HTTP request object
     :param str col_tag: The tag for looking up the Collection.
-
+    :return: A page itemizing pieces in this collection
     """
 
     col = Collection.objects.get(tag=col_tag)

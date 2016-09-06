@@ -43,14 +43,16 @@ def resolve_rdf(fnm):
     has_lys = False
     if fnm.startswith('ftp') and fnm.endswith('.ly'):
         t = []
-        fparts = fnm.split(os.sep)
+        fparts = fnm.split('/')
         fparts.pop(0)
         while True:
-            p = fparts.pop(0)
-            if p.endswith('.ly') or p.endswith('-lys'):
+            part = fparts.pop(0)
+            if part.endswith('.ly'):
+                break
+            if part.endswith('-lys'):
                 has_lys = True
                 break
-            t.append(p)
+            t.append(part)
         t.append(t[len(t)-1] + '.rdf')
         # rejoin parts with a forward-slash
         return ('/'.join(t), has_lys)
