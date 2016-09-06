@@ -1,5 +1,13 @@
+# django
 Django==1.10
 django-configurations==2.0
-psycopg2==2.6.2
-requests==2.11.1
+
+# static file management
 whitenoise==3.2.1
+
+# postgres
+psycopg2==2.6.2
+
+requests==2.11.1
+# used in update app
+rdflib==4.2.1
