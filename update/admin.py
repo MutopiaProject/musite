@@ -6,4 +6,7 @@ appear in the `Admin` panels.
 from django.contrib import admin
 from update.models import InstrumentMap
 
-admin.site.register(InstrumentMap)
+class InstrumentMapAdmin(admin.ModelAdmin):
+    list_display = ('raw_instrument', 'instrument')
+
+admin.site.register(InstrumentMap, InstrumentMapAdmin)
