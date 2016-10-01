@@ -45,7 +45,7 @@ class InstrumentMap(models.Model):
     #:An instrument name that may be a nickname (*uke*) or a common
     #:non-English name (*guitarre*) that can be mapped to a name in
     #:the :class:`mutopia.models.Instrument` table.
-    raw_instrument = models.TextField(primary_key=True)
+    raw_instrument = models.CharField(primary_key=True, max_length=64)
 
     #:Reference to the :class:`mutopia.models.Instrument` table
     instrument = models.ForeignKey(Instrument, models.CASCADE)
