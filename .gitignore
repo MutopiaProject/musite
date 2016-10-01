@@ -31,3 +31,7 @@ __pycache__/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+notes.txt
+*.dump
+dumpdb.sh
