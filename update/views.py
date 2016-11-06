@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_safe
+from django.db.models import Max
 from mutopia.models import Piece
 
 @require_safe
