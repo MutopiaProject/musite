@@ -1,32 +1,16 @@
 """musite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
-
-"""mudev URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.9/topics/http/urls/
 
 """
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls import handler404
 from mutopia import views, piece_views
 from mutopia.rss import LatestEntriesFeed, AtomLatestFeed
-from django.conf.urls import handler404
-
+from mutopia import hooks
 
 urlpatterns = [
     url(r'^$',
@@ -62,6 +46,7 @@ urlpatterns = [
         AtomLatestFeed(),
         name='latest-atom'),
     url(r'update/', include('update.urls')),
+    url(r'push_hook/', hooks.push_hook, name='push_hook'),
 ]
 
 handler404 = 'mutopia.views.handler404'
