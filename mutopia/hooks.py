@@ -30,17 +30,20 @@ def push_hook(request):
 
     jbody = json.loads(request.body.decode('utf-8'))
     jbuffer = StringIO()
-    jbuffer.write('pusher is: ' + jbody['pusher']['name'])
-    jbuffer.write('Commits:\n')
-    for commit in jbody['commits']:
-        for modified in commit['modified']:
-            jbuffer.write(' Modified: '+modified)
-            jbuffer.write('\n')
-        for removal in commit['removed']:
-            jbuffer.write(' Removed: '+removal)
-            jbuffer.write('\n')
-        for addition in commit['added']:
-            jbuffer.write(' Added: '+addition)
-            jbuffer.write('\n')
-    # anything else ?
-    return HttpResponse(buf.getvalue())
+    if 'pusher' in jbody:
+        jbuffer.write('pusher is: ' + jbody['pusher']['name'])
+    if 'commits' in jbody:
+        jbuffer.write('Commits:\n')
+        for commit in jbody['commits']:
+            for modified in commit['modified']:
+                jbuffer.write(' Modified: '+modified)
+                jbuffer.write('\n')
+            for removal in commit['removed']:
+                jbuffer.write(' Removed: '+removal)
+                jbuffer.write('\n')
+            for addition in commit['added']:
+                jbuffer.write(' Added: '+addition)
+                jbuffer.write('\n')
+            # anything else ?
+
+    return HttpResponse(jbuffer.getvalue())
