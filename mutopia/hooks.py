@@ -29,7 +29,7 @@ def push_hook(request):
         return HttpResponse('Hook got a non-POST event, ignored.')
 
     jbody = json.loads(request.body.decode('utf-8'))
-    jbuffer = String()
+    jbuffer = StringIO()
     jbuffer.write('pusher is: ' + jbody['pusher']['name'])
     jbuffer.write('Commits:\n')
     for commit in jbody['commits']:
