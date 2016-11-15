@@ -47,6 +47,7 @@ urlpatterns = [
         name='latest-atom'),
     url(r'update/', include('update.urls')),
     url(r'push_hook/', hooks.push_hook, name='push_hook'),
+    url(r'db_hook/', hooks.db_hook, name='db_hook'),
 ]
 
 handler404 = 'mutopia.views.handler404'
