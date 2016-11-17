@@ -38,7 +38,7 @@ def push_hook(request):
     if 'pusher' in jbody:
         jbuffer.write('pusher is: ' + jbody['pusher']['name'])
     if 'commits' in jbody:
-        jbuffer.write('Commits:\n')
+        jbuffer.write('\nCommits:\n')
         for commit in jbody['commits']:
             for modified in commit['modified']:
                 jbuffer.write(' Modified: '+modified)
