@@ -22,7 +22,7 @@
       <a href="{% url 'piece-info' addition.piece_id %}">{{addition.title}}, by {{addition.composer}} -
       {{addition.opus}} for {{addition.raw_instrument}}</a></p>
     {% endfor %}
-    <p><a href="latestadditions.html" class="btn-default btn-sm active" role="button">Show All <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a></p>
+    <p><a href="{% url 'latest_additions' %}" class="btn-default btn-sm active" role="button">Show All <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a></p>
   </div>
 
   <!-- Instruments -->

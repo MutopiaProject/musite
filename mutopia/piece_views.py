@@ -85,6 +85,26 @@ def piece_by_instrument(request, instrument):
     return render(request, 'mutopia/piece_instrument.html', context)
 
 
+
+def latest_additions(request):
+    pieces = Piece.objects.order_by('-piece_id')
+    paginator = Paginator(pieces, 25)
+    p = request.GET.get('page')
+    try:
+        page = paginator.page(p)
+    except PageNotAnInteger:
+        page = paginator.page(1)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+
+    context = {
+        'keyform': KeySearchForm(auto_id=False),
+        'pager': page,
+    }
+
+    return render(request, 'mutopia/latest.html', context)
+
+
 def piece_by_style(request, slug):
     """Render one or more pages of pieces composed for the given
     style. Note that the `slug` of the piece is passed so that the
