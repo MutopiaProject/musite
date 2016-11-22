@@ -52,7 +52,7 @@ def push_hook(request):
                 if asset_info:
                     asset_dict[asset_info[0]] = asset_info[1]
             for addition in commit['added']:
-                asset_info = _get_asset_info(modified)
+                asset_info = _get_asset_info(addition)
                 if asset_info:
                     asset_dict[asset_info[0]] = asset_info[1]
         # Iterate dictionary items to update/create the associated asset.
