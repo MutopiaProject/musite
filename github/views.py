@@ -59,7 +59,7 @@ def push_hook(request):
         for folder,has_lys in asset_dict.items():
             name = folder[folder.rfind('/')+1:]
             try:
-                asset = AssetMap.objects.get(folder=key)
+                asset = AssetMap.objects.get(folder=folder)
                 asset.has_lys = has_lys
                 asset.name = name
                 asset.piece = None
