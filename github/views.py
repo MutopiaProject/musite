@@ -43,7 +43,7 @@ def push_hook(request):
     jbody = json.loads(request.body.decode('utf-8'))
     jbuffer = StringIO()
     if 'pusher' in jbody:
-        jbuffer.write('Processing push by: %{0}\n'.format(jbody['pusher']['name']))
+        jbuffer.write('Processing push by: {0}\n'.format(jbody['pusher']['name']))
     if 'commits' in jbody:
         asset_dict = dict()
         for commit in jbody['commits']:
