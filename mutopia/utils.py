@@ -9,6 +9,7 @@
 
 import os
 import re
+import datetime
 
 MUTOPIA_BASE = 'MUTOPIA_BASE'
 MUTOPIA_WEB = 'MUTOPIA_WEB'
@@ -66,9 +67,9 @@ class Singleton:
         return isinstance(inst, self._decorated)
 
 
-_FOOT_PAT = re.compile("Mutopia-([0-9/]+)-([0-9]+)$")
-def id_from_footer(footer):
-    """Parse a Mutopia footer string, typically from an RDF file, and
+_MUID_PATTERN = re.compile('Mutopia-([0-9]{4})/(\d\d?)/(\d\d?)-([0-9]*)$')
+def parse_mutopia_id(mutopia_id):
+    """Parse a Mutopia mutopia_id string, typically from an RDF file, and
     return a tuple containing the publication date and piece-id.
 
     For example::
@@ -76,13 +77,20 @@ def id_from_footer(footer):
         Mutopia-2016/20/12-33 ==> ("2016/20/12", "33")
         Mutopia-2016/20/12-AB ==> None
 
-    :param str footer: The mutopia footer string, expected to be in
+    :param str mutopia_id: The mutopia mutopia_id string, expected to be in
         the appropriate format.
-    :return: A tuple or ``None`` if the footer can't be parsed.
+    :return: A tuple containing a (datetime.date, id)
 
     """
-    if footer:
-        fmat = _FOOT_PAT.search(footer)
+    if mutopia_id:
+        fmat = _MUID_PATTERN.search(mutopia_id)
         if fmat:
-            return (fmat.group(1), fmat.group(2))
-    return None
+            try:
+                pub_date = datetime.date(int(fmat.group(1)),
+                                         int(fmat.group(2)),
+                                         int(fmat.group(3)))
+                return (pub_date, fmat.group(4))
+            except TypeError:
+                raise ValueError('Invalid date on input from %s' % fmat.group(0))
+
+    raise ValueError('Empty or mal-formed mutopia id')

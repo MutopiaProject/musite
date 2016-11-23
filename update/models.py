@@ -5,28 +5,7 @@
 """
 
 from django.db import models
-from mutopia.utils import FTP_URL
 from mutopia.models import Piece, Instrument
-from django.utils import timezone
-
-class Marker(models.Model):
-    """A persistent timestamp.
-
-    Provides for storage of a timestamp to be used by the update
-    process.
-
-    """
-
-    #:Date of update.
-    updated_on = models.DateTimeField()
-
-    def __str__(self):
-        return self.updated_on.isoformat()
-
-    @classmethod
-    def create(cls):
-        marker = Marker.objects.create(updated_on=timezone.now())
-        return marker
 
 
 class InstrumentMap(models.Model):

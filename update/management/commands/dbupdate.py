@@ -2,62 +2,19 @@ import re
 import os
 import logging
 from urllib.error import HTTPError
-from subprocess import check_output
-from datetime import date
-from django.utils import timezone
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import F
+from django.core.management.base import BaseCommand
 from django.db import transaction
-from mutopia.models import Composer, Style, Piece, Instrument, Contributor
-from mutopia.models import LPVersion
-from mutopia.models import AssetMap, License
-from mutopia.search import SearchTerm
-from mutopia.utils import GITHUB_REPOS, FTP_URL, id_from_footer
-from update.models import InstrumentMap, Marker
 from rdflib import Graph, URIRef, Namespace, URIRef
 from rdflib.term import Literal
-import requests
-from requests.auth import HTTPBasicAuth
+from mutopia.models import Composer, Style, Piece, Contributor
+from mutopia.models import LPVersion, AssetMap, License
+from update.models import Instrument, InstrumentMap
+from mutopia.search import SearchTerm
+from mutopia.utils import FTP_URL, parse_mutopia_id
 
 logger = logging.getLogger('update')
 
 MP = Namespace('http://www.mutopiaproject.org/piece-data/0.1/')
-git_headers = {'Accept' : 'application/vnd.github.v3+json'}
-
-
-def commits_since(auth, since_date):
-    """Request a list of repository commits from the given date as a
-       JSON structure using the github API.
-    """
-    req = '/'.join([GITHUB_REPOS, 'commits?since={0}'.format(since_date),])
-    r = requests.get(req, auth=auth, headers=git_headers)
-    if (r.status_code != requests.codes.ok):
-        r.raise_for_status()
-    return r.json()
-
-
-def resolve_rdf(fnm):
-    """Given a filename relative to the top of the repository, figure
-    out if an RDF file can be associated with it.
-    """
-    has_lys = False
-    if fnm.startswith('ftp') and fnm.endswith('.ly'):
-        t = []
-        fparts = fnm.split('/')
-        fparts.pop(0)
-        while True:
-            part = fparts.pop(0)
-            if part.endswith('.ly'):
-                break
-            if part.endswith('-lys'):
-                has_lys = True
-                break
-            t.append(part)
-        t.append(t[len(t)-1] + '.rdf')
-        # rejoin parts with a forward-slash
-        return ('/'.join(t), has_lys)
-    else:
-        return None
 
 
 class Command(BaseCommand):
@@ -87,27 +44,27 @@ class Command(BaseCommand):
     def update_pieces(self):
         # get all RDF specs with a null piece reference
         rmap = AssetMap.objects.all().filter(piece__isnull=True)
-        for r in rmap:
-            path = '/'.join([FTP_URL, r.folder, r.name+'.rdf',])
-            logger.info('trying {0}'.format(path))
+        published = []
+        for asset in rmap:
+            path = '/'.join([FTP_URL, asset.folder, asset.name+'.rdf',])
+            logger.info('Reading RDF %s' % path)
             try:
                 graph = Graph().parse(URIRef(path))
             except (FileNotFoundError, HTTPError):
                 # This AssetMap element is invalid somehow, just delete it.
-                r.delete()
+                asset.delete()
                 continue
 
             # Because our RDF's are defined as 'rdf:about:"."' the subject
             # is an URI reference to the containing folder
-            mp_subj = URIRef('/'.join([FTP_URL, r.folder,]) + '/')
+            mp_subj = URIRef('/'.join([FTP_URL, asset.folder,]) + '/')
 
             # A footer isn't stored in the database but its bit parts are.
             footer = graph.value(mp_subj, MP.id)
             if footer is None:
-                logger.warning('Failed to get footer from {0}'.format(path))
+                logger.warning('RDF has no ID: %s' % path)
                 break
-            (pubdate, mutopia_id) = id_from_footer(footer)
-            pdvec = [ int(x) for x in pubdate.split('/') ]
+            (pubdate, mutopia_id) = parse_mutopia_id(footer)
 
             # Determine if this is an update or a new piece
             piece = None
@@ -138,94 +95,24 @@ class Command(BaseCommand):
                 graph.value(mp_subj, MP.lilypondVersion))
             piece.lyricist = graph.value(mp_subj, MP.lyricist)
             piece.date_composed = graph.value(mp_subj, MP.date)
-            piece.date_published = date(pdvec[0], pdvec[1], pdvec[2])
+            piece.date_published = pubdate
             piece.source = graph.value(mp_subj, MP.source)
             piece.moreinfo = graph.value(mp_subj, MP.moreInfo)
             piece.opus = graph.value(mp_subj, MP.opus)
+            # Clear the relationships this piece has with instruments
+            piece.instruments.clear()
             piece.save()
-            r.piece = piece
-            r.save()
+
+            # Associate the asset with the piece
+            asset.piece = piece
+            asset.save()
             logger.info('  {0}: {1}'.format(status, piece))
+            published.append(mutopia_id)
 
-
-    def rdfset_since(self, auth, marker):
-        rdfset = set()
-        for item in commits_since(auth, marker):
-            br = requests.get('/'.join([GITHUB_REPOS, 'commits', item['sha'], ]),
-                              auth=auth,
-                              headers=git_headers)
-            if (br.status_code == requests.codes.ok):
-                comm_item = br.json()
-                for files in comm_item['files']:
-                    rdftuple = resolve_rdf(files['filename'])
-                    if rdftuple is not None:
-                        rdfset.add(rdftuple)
-            else:
-                logger.warning('Oops, got status code {0}'.format(r.status_code))
-        return rdfset
-
-
-    def update_assets(self, rdfset):
-        logger.info('RDF files to process: {0}'.format(len(rdfset)))
-        for s in rdfset:
-            (folder,name) = os.path.split(s[0])
-            name = name[:name.rfind('.')]
-            try:
-                # if the RDF exists in the map, it is an update
-                asset = AssetMap.objects.get(folder=folder)
-                if asset.has_lys != s[1]:
-                    self.stdout.write('  Asset "{0}" is now {1}'.format(s[0], s[1]))
-                    asset.has_lys = s[1]
-                asset.piece = None
-                asset.save()
-                logger.info(' [update] {0}'.format(s))
-            except AssetMap.DoesNotExist:
-                # New entry in the archive
-                asset = AssetMap(folder=folder, name=name, has_lys=s[1])
-                asset.save()
-                logger.info(' [new] {0}'.format(s))
-
-
-    def add_arguments(self, parser):
-        parser.add_argument('-t', '--token',
-                            dest='token',
-                            help='github personal token')
-        parser.add_argument('-u', '--user',
-                            dest='user',
-                            help='github username')
-        parser.add_argument('--skip-github',
-                            dest='github',
-                            action='store_false',
-                            default=True)
-        parser.add_argument('--skip-asset-write',
-                            dest='asset_write',
-                            action='store_false',
-                            default=True)
+        return published
 
 
     def handle(self, *args, **options):
-        marker = Marker.objects.latest('updated_on')
-
-        auth = None
-        if options['user']:
-            if options['token']:
-                auth = HTTPBasicAuth(options['user'], options['token'])
-            else:
-                log.warning('User given but no token, will try with None anyway.')
-
-        if options['github']:
-            self.stdout.write('Getting commits from github since {0}'.format(marker))
-            self.stdout.write('  Patience...')
-            rdfset = self.rdfset_since(auth, marker)
-            if options['asset_write']:
-                self.update_assets(rdfset)
-            else:
-                for rdf in rdfset:
-                    self.stdout.write('  skipped {0}'.format(rdf))
-
-            new_marker = Marker(updated_on=timezone.now())
-            new_marker.save()
-
         with transaction.atomic():
             self.stdout.write('Processing new or updated RDF files')
             self.update_pieces()
