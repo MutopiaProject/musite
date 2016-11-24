@@ -84,6 +84,32 @@ class Common(Configuration):
     }
 
 
+    # Use "DEBUG" level to get DB query times (as well as expected
+    # exceptions that are caught and ignored in the template system.)
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
+            },
+            'mutopia': {
+                'handlers': ['console'],
+                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            },
+            'update': {
+                'handlers': ['console'],
+                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            },
+        },
+
+
     # Password validation
     # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -127,31 +153,6 @@ class Development(Common):
     """
     DEBUG = values.BooleanValue(True)
     ALLOWED_HOSTS = ['127.0.0.0',]
-
-    # Use "DEBUG" level to get DB query times (as well as expected
-    # exceptions that are caught and ignored in the template system.)
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
-            },
-            'mutopia': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            },
-            'update': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            },
-        },
     }
 
 
