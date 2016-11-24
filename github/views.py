@@ -62,7 +62,9 @@ def push_hook(request):
                 asset = AssetMap.objects.get(folder=folder)
                 asset.has_lys = has_lys
                 asset.name = name
-                asset.piece = None
+                # mark unpublished to force subsequent update to
+                # reread the RDF file.
+                asset.published = False
                 asset.save()
                 jbuffer.write('[update] - ')
             except AssetMap.DoesNotExist:

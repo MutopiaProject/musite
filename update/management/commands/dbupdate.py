@@ -1,3 +1,6 @@
+"""Django command for updating the database from the AssetMap.
+"""
+
 import re
 import os
 import logging
@@ -35,28 +38,32 @@ class Command(BaseCommand):
                 t = InstrumentMap.translate(instrument)
                 if t:
                     mlist.add(t)
-            if len(mlist) > 0:
-                logger.info('  {0}: instrument {1}'.format(p.piece_id,mlist))
-                for instr in mlist:
-                    p.instruments.add(instr)
+            if len(mlist) == 0:
+                logger.info('No instruments added for %s' % p)
+                next
+
+            for instr in mlist:
+                p.instruments.add(instr)
+                logger.info('Added %s to %s' % (instr,p))
 
 
     def update_pieces(self):
         # get all RDF specs with a null piece reference
-        rmap = AssetMap.objects.all().filter(piece__isnull=True)
+        rmap = AssetMap.objects.all().filter(published=False)
         published = []
         for asset in rmap:
-            path = '/'.join([FTP_URL, asset.folder, asset.name+'.rdf',])
+            path = asset.get_rdfspec()
             logger.info('Reading RDF %s' % path)
             try:
                 graph = Graph().parse(URIRef(path))
             except (FileNotFoundError, HTTPError):
-                # This AssetMap element is invalid somehow, just delete it.
+                # This AssetMap element is invalid somehow.
+                logger.info('Removing %s from consideration.' % asset)
                 asset.delete()
                 continue
 
             # Because our RDF's are defined as 'rdf:about:"."' the subject
-            # is an URI reference to the containing folder
+            # is an URI reference to the containing folder.
             mp_subj = URIRef('/'.join([FTP_URL, asset.folder,]) + '/')
 
             # A footer isn't stored in the database but its bit parts are.
@@ -103,8 +110,9 @@ class Command(BaseCommand):
             piece.instruments.clear()
             piece.save()
 
-            # Associate the asset with the piece
+            # Associate the asset with the piece and mark it published
             asset.piece = piece
+            asset.published = True
             asset.save()
             logger.info('  {0}: {1}'.format(status, piece))
             published.append(mutopia_id)
@@ -114,7 +122,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with transaction.atomic():
-            self.stdout.write('Processing new or updated RDF files')
+            logger.info('Processing new or updated RDF files.')
             self.update_pieces()
             self.update_instruments()
             SearchTerm.refresh_view()

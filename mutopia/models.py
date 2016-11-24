@@ -360,8 +360,23 @@ class AssetMap(models.Model):
                               blank=True,
                               null=True)
 
+    #:A publish marker for the asset. Marked True if the publishing
+    #:aspects of the asset are complete and can be found in the
+    #:folder. This may be marked False on these occasions:
+    #:
+    #: - When the piece is first submitted to the archive.
+    #: - When the piece is updated and requires an update.
+    #:
+    published = models.BooleanField(default=False)
+
     def __str__(self):
         return '/'.join([self.folder, self.name,])
+
+    def is_published(self):
+        return self.published
+
+    def get_rdfspec(self):
+        return '/'.join([FTP_URL, self.folder, self.name+'.rdf',])
 
     def get_composer(self):
         """Return the composer part of the folder."""
