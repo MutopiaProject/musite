@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_safe
 from django.db.models import Max
-from mutopia.models import Piece
+from mutopia.models import Piece, AssetMap
 
 @require_safe
 def site_status(request):
@@ -21,8 +21,13 @@ def site_status(request):
     :rtype: JsonResponse
 
     """
-
+    state_dict = dict()
     piecemax = Piece.objects.all().aggregate(Max('piece_id'))
     next_id = int(piecemax['piece_id__max']) + 1
-    response = JsonResponse({'LastID': piecemax['piece_id__max']})
+    state_dict['LastID'] = piecemax['piece_id__max']
+    assets = []
+    for pending_asset in AssetMap.objects.all().filter(published=False):
+        assets.append(pending_asset.folder)
+    state_dict['pending'] = assets
+    response = JsonResponse(state_dict)
     return response
