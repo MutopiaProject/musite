@@ -10,6 +10,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from configurations import Configuration, values
+import time
+import logging
+
+# for the logging configuration
+class UTCFormatter(logging.Formatter):
+    converter = time.gmtime
 
 class Common(Configuration):
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -89,26 +95,50 @@ class Common(Configuration):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                '()': UTCFormatter,
+                'format': '[%(asctime)s] %(levelname)s - %(name)s:%(message)s',
+            },
+            'simple': {
+                'format': '%(levelname)s: %(message)s',
+            },
+        },
         'handlers': {
+            'applogfile': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'musite.log',
+                'formatter': 'verbose',
+                'maxBytes': 1024*1024*15,
+                'backupCount': 6,
+                'formatter': 'verbose',
+            },
             'console': {
                 'class': 'logging.StreamHandler',
+                'formatter': 'simple',
             },
         },
         'loggers': {
             'django': {
-                'handlers': ['console'],
+                'handlers': ['applogfile',],
+                'propagate': True,
                 'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
             },
             'mutopia': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+                'handlers': ['applogfile',],
+                'level': 'INFO',
+            },
+            'github': {
+                'handlers': ['applogfile',],
+                'level': 'INFO',
             },
             'update': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+                'handlers': ['applogfile', 'console',],
+                'level': 'INFO',
             },
         },
-
+    }
 
     # Password validation
     # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -153,7 +183,6 @@ class Development(Common):
     """
     DEBUG = values.BooleanValue(True)
     ALLOWED_HOSTS = ['127.0.0.0',]
-    }
 
 
 class Staging(Common):
