@@ -105,15 +105,6 @@ class Common(Configuration):
             },
         },
         'handlers': {
-            'applogfile': {
-                'level': 'DEBUG',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': 'musite.log',
-                'formatter': 'verbose',
-                'maxBytes': 1024*1024*15,
-                'backupCount': 6,
-                'formatter': 'verbose',
-            },
             'console': {
                 'class': 'logging.StreamHandler',
                 'formatter': 'simple',
@@ -121,20 +112,20 @@ class Common(Configuration):
         },
         'loggers': {
             'django': {
-                'handlers': ['applogfile',],
+                'handlers': ['console',],
                 'propagate': True,
                 'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
             },
             'mutopia': {
-                'handlers': ['applogfile',],
-                'level': 'INFO',
+                'handlers': ['console',],
+                'level': 'WARNING',
             },
             'github': {
-                'handlers': ['applogfile',],
-                'level': 'INFO',
+                'handlers': ['console',],
+                'level': 'WARNING',
             },
             'update': {
-                'handlers': ['applogfile', 'console',],
+                'handlers': ['console',],
                 'level': 'INFO',
             },
         },

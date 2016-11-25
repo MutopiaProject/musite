@@ -8,7 +8,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls import handler404
-from mutopia import views, piece_views
+from mutopia import views, piece_views, hooks
 from mutopia.rss import LatestEntriesFeed, AtomLatestFeed
 from mutopia import hooks
 
