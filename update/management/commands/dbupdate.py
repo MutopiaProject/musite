@@ -15,7 +15,7 @@ from update.models import Instrument, InstrumentMap
 from mutopia.search import SearchTerm
 from mutopia.utils import FTP_URL, parse_mutopia_id
 
-logger = logging.getLogger('update')
+logger = logging.getLogger(__name__)
 
 MP = Namespace('http://www.mutopiaproject.org/piece-data/0.1/')
 
@@ -44,56 +44,47 @@ class Command(BaseCommand):
 
             for instr in mlist:
                 p.instruments.add(instr)
-                logger.info('Added %s to %s' % (instr,p))
+                logger.info('Added %s to %s' % (instr,p.piece_id))
 
 
-    def update_pieces(self):
-        # get all RDF specs with a null piece reference
-        rmap = AssetMap.objects.all().filter(published=False)
-        published = []
-        for asset in rmap:
+    def process_pending_pieces(self):
+        # Get all assets that are ready to publish
+        for asset in AssetMap.objects.all().filter(published=False):
             path = asset.get_rdfspec()
             logger.info('Reading RDF %s' % path)
             try:
                 graph = Graph().parse(URIRef(path))
             except (FileNotFoundError, HTTPError):
-                # This AssetMap element is invalid somehow.
-                logger.info('Removing %s from consideration.' % asset)
-                asset.delete()
+                logger.info('Asset still pending: %s.' % asset)
                 continue
 
             # Because our RDF's are defined as 'rdf:about:"."' the subject
-            # is an URI reference to the containing folder.
+            # is a URI reference to the containing folder.
             mp_subj = URIRef('/'.join([FTP_URL, asset.folder,]) + '/')
 
-            # A footer isn't stored in the database but its bit parts are.
-            footer = graph.value(mp_subj, MP.id)
-            if footer is None:
-                logger.warning('RDF has no ID: %s' % path)
-                break
-            (pubdate, mutopia_id) = parse_mutopia_id(footer)
+            try:
+                footer = graph.value(mp_subj, MP.id)
+                (pubdate, mutopia_id) = parse_mutopia_id(footer)
+            except ValueError as exc:
+                logger.info('%s, continuing.' % exc)
+                continue
 
             # Determine if this is an update or a new piece
-            piece = None
-            status = None
             comp = Composer.objects.get(composer=graph.value(mp_subj, MP.composer))
             try:
                 piece = Piece.objects.get(pk=mutopia_id)
                 piece.title = graph.value(mp_subj, MP.title)
                 piece.composer = comp
-                status = 'update'
             except Piece.DoesNotExist:
                 piece = Piece(piece_id = mutopia_id,
                               title = graph.value(mp_subj, MP.title),
                               composer = comp)
-                status = 'new'
 
-            # fill out the remainder of piece
+            # Fill out remainder of piece from the RDF.
             piece.style = Style.objects.get(pk=graph.value(mp_subj,MP.style))
             piece.raw_instrument = graph.value(mp_subj, MP['for'])
             piece.license = License.objects.get(name=graph.value(mp_subj, MP.licence))
-            # use routines to get maintainer and version because we
-            # might have to create them on the fly
+            # Maintainer and Version objects may need to be created
             piece.maintainer = Contributor.find_or_create(
                 graph.value(mp_subj, MP.maintainer),
                 graph.value(mp_subj, MP.maintainerEmail),
@@ -106,7 +97,7 @@ class Command(BaseCommand):
             piece.source = graph.value(mp_subj, MP.source)
             piece.moreinfo = graph.value(mp_subj, MP.moreInfo)
             piece.opus = graph.value(mp_subj, MP.opus)
-            # Clear the relationships this piece has with instruments
+            # Clear the instrument relationships for this piece.
             piece.instruments.clear()
             piece.save()
 
@@ -114,15 +105,13 @@ class Command(BaseCommand):
             asset.piece = piece
             asset.published = True
             asset.save()
-            logger.info('  {0}: {1}'.format(status, piece))
-            published.append(mutopia_id)
-
-        return published
+            logger.info('  Finished: {0}'.format(piece))
 
 
     def handle(self, *args, **options):
         with transaction.atomic():
             logger.info('Processing new or updated RDF files.')
-            self.update_pieces()
+            self.process_pending_pieces()
             self.update_instruments()
+            logger.info('Refreshing materialized view for FTS.')
             SearchTerm.refresh_view()
