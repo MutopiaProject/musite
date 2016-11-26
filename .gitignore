@@ -1,6 +1,8 @@
 # emacs backup files
 *~
 
+musite.log
+
 # static files collected by django
 staticfiles/
 
