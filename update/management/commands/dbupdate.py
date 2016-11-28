@@ -47,6 +47,34 @@ class Command(BaseCommand):
                 logger.info('Added %s to %s' % (instr,p.piece_id))
 
 
+    def finalize_mapping(self, asset, piece):
+        """ Check for a folder rename and remove the matching asset
+        if found.
+
+        The asset may be in one of two states,
+          - it is a new piece and the only existing mapping
+          - it is an existing piece that is being updated
+          - it is an existing peice whose physical location is being
+            changed (a folder rename).
+
+        The first case will result in a is simple save of the given
+        asset. The last two will be handled the same way by deleting
+        the existing asset, allowing the new one to be saved.
+
+        """
+        try:
+            old_asset = AssetMap.objects.get(piece=piece)
+            if old_asset.folder != asset.folder:
+                logging.info('Renaming asset, %s -> %s' % (old_asset,asset))
+            old_asset.delete()
+        except AssetMap.DoesNotExist:
+            pass
+
+        asset.piece = piece
+        asset.published = True
+        asset.save()
+
+
     def process_pending_pieces(self):
         # Get all assets that are ready to publish
         for asset in AssetMap.objects.all().filter(published=False):
@@ -70,20 +98,26 @@ class Command(BaseCommand):
                 continue
 
             # Determine if this is an update or a new piece
-            comp = Composer.objects.get(composer=graph.value(mp_subj, MP.composer))
+            comp = Composer.objects.get(
+                composer=graph.value(mp_subj, MP.composer))
             try:
-                piece = Piece.objects.get(pk=mutopia_id)
+                piece = Piece.objects.get(piece_id=mutopia_id)
+                logger.info('Found existing piece to update.')
                 piece.title = graph.value(mp_subj, MP.title)
                 piece.composer = comp
+                if not graph.value(mp_subj, MP['for']).eq(piece.raw_instrument):
+                    piece.instruments.clear()
             except Piece.DoesNotExist:
-                piece = Piece(piece_id = mutopia_id,
-                              title = graph.value(mp_subj, MP.title),
-                              composer = comp)
+                logger.info('Creating new piece.')
+                piece = Piece(piece_id=mutopia_id,
+                              title=graph.value(mp_subj, MP.title),
+                              composer=comp)
 
             # Fill out remainder of piece from the RDF.
             piece.style = Style.objects.get(pk=graph.value(mp_subj,MP.style))
             piece.raw_instrument = graph.value(mp_subj, MP['for'])
-            piece.license = License.objects.get(name=graph.value(mp_subj, MP.licence))
+            piece.license = License.objects.get(
+                name=graph.value(mp_subj, MP.licence))
             # Maintainer and Version objects may need to be created
             piece.maintainer = Contributor.find_or_create(
                 graph.value(mp_subj, MP.maintainer),
@@ -97,15 +131,10 @@ class Command(BaseCommand):
             piece.source = graph.value(mp_subj, MP.source)
             piece.moreinfo = graph.value(mp_subj, MP.moreInfo)
             piece.opus = graph.value(mp_subj, MP.opus)
-            # Clear the instrument relationships for this piece.
-            piece.instruments.clear()
-            piece.save()
 
-            # Associate the asset with the piece and mark it published
-            asset.piece = piece
-            asset.published = True
-            asset.save()
-            logger.info('  Finished: {0}'.format(piece))
+            piece.save()
+            self.finalize_mapping(asset, piece)
+            logger.info('* Finished piece {0}'.format(piece))
 
 
     def handle(self, *args, **options):
