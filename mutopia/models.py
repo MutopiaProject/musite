@@ -187,7 +187,7 @@ class LPVersion(models.Model):
             version = LPVersion.objects.get(version=lpversion)
             return version
         except LPVersion.DoesNotExist:
-            version = LPVersion(version=lpversion)
+            version = LPVersion.objects.create(version=lpversion)
             bits = lpversion.split('.', 2)
             # Expect at least major.minor
             version.major = bits[0]
