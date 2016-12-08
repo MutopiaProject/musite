@@ -68,7 +68,12 @@ def push_hook(request):
                 asset.save()
                 jbuffer.write('[update] - ')
             except AssetMap.DoesNotExist:
-                asset = AssetMap(folder=folder, name=name, has_lys=has_lys)
+                # Create the new asset.
+                # No piece_id is assigned at this time but it could
+                # be.
+                asset = AssetMap.objects.create(folder=folder,
+                                                name=name,
+                                                has_lys=has_lys)
                 asset.save()
                 jbuffer.write('[new]    - ')
             jbuffer.write(folder)
