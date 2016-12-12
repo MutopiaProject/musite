@@ -1,5 +1,5 @@
 # django
-Django==1.10
+Django==1.10.4
 django-configurations==2.0
 
 # static file management
