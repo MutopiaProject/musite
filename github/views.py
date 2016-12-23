@@ -20,6 +20,8 @@ def _get_asset_info(infile):
     return ('/'.join(fvec), has_lys)
 
 
+_IGNORES = {'Makefile', '.gitignore'}
+
 # Note that we need csrf_exempt here because the request will not come
 # from a django form.
 
@@ -71,6 +73,9 @@ def push_hook(request):
                 # Create the new asset.
                 # No piece_id is assigned at this time but it could
                 # be.
+                if name in _IGNORES:
+                    folder = folder + ' (ignored)'
+                    continue
                 asset = AssetMap.objects.create(folder=folder,
                                                 name=name,
                                                 has_lys=has_lys)
