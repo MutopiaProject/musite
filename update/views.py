@@ -23,7 +23,7 @@ def site_status(request):
     """
     state_dict = dict()
     piecemax = Piece.objects.all().aggregate(Max('piece_id'))
-    next_id = int(piecemax['piece_id__max']) + 1
+    #next_id = int(piecemax['piece_id__max']) + 1
     state_dict['LastID'] = piecemax['piece_id__max']
     assets = []
     for pending_asset in AssetMap.objects.all().filter(published=False):

@@ -173,7 +173,7 @@ class Development(Common):
     In-development settings and default configuration
     """
     DEBUG = values.BooleanValue(True)
-    ALLOWED_HOSTS = ['127.0.0.0',]
+    ALLOWED_HOSTS = ['127.0.0.1']
 
 
 class Staging(Common):
