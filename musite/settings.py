@@ -188,6 +188,7 @@ class Staging(Common):
                 'PORT': os.environ['RDS_PORT'],
             }
         }
+    ALLOWED_HOSTS = ['musite-dev.us-west-2.elasticbeanstalk.com']
     DEBUG = values.BooleanValue(True)
     STATIC_URL = '/staticfiles/'
     STATIC_ROOT = os.path.join(Common.BASE_DIR, 'staticfiles')
