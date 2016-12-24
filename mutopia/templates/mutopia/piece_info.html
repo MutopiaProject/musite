@@ -11,7 +11,14 @@
     </div>
     <div class="panel-body">
       <div class="row preview-image">
-        <p><img src="{{preview_image}}" border="0" alt="Music preview" /></p>
+        <p>{% if asset.uses_svg %}
+          <object type="image/svg+xml" data="{{preview_image}}" alt="Music preview">
+            SVG images are not supported on this browser.
+          </object>
+          {% else %}
+          <img src="{{preview_image}}" border="0" alt="Music preview" />
+          {% endif %}
+        </p>
       </div>
       <div class="row">
         <dl class="dl-horizontal">

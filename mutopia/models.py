@@ -369,6 +369,9 @@ class AssetMap(models.Model):
     #:
     published = models.BooleanField(default=False)
 
+    #:True if preview image for piece is an SVG image.
+    uses_svg = models.BooleanField(default=True)
+
     def __str__(self):
         return '/'.join([self.folder, self.name,])
 

@@ -26,13 +26,19 @@ def piece_info(request, piece_id):
     piece = get_object_or_404(Piece, pk=piece_id)
 
     asset = AssetMap.objects.get(piece=piece_id)
+    preview_name = asset.name+'-preview'
+    if asset.uses_svg:
+        preview_name += '.svg'
+    else:
+        preview_name += '.png'
+    
     context = {
         'keyform': KeySearchForm(auto_id=False),
         'piece': piece,
         'asset': asset,
         'preview_image': '/'.join([FTP_URL,
                                    asset.folder,
-                                   asset.name+'-preview.png',]),
+                                   preview_name,]),
         'instruments': piece.instruments.all(),
     }
     collection = piece.collection_set.all()
