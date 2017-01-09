@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 logger.info('Added %s to %s' % (instr,p.piece_id))
 
 
-    def finalize_mapping(self, asset, piece):
+    def finalize_mapping(self, asset, piece, uses_svg):
         """ Check for a folder rename and remove the matching asset
         if found.
 
@@ -72,6 +72,7 @@ class Command(BaseCommand):
 
         asset.piece = piece
         asset.published = True
+        asset.uses_svg = uses_svg
         asset.save()
 
 
@@ -133,7 +134,8 @@ class Command(BaseCommand):
             piece.opus = graph.value(mp_subj, MP.opus)
 
             piece.save()
-            self.finalize_mapping(asset, piece)
+            image_name = str(graph.value(mp_subj, MP.pngFile))
+            self.finalize_mapping(asset, piece, image_name.endswith('.svg'))
             logger.info('* Finished piece {0}'.format(piece))
 
 
