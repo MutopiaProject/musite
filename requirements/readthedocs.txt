@@ -1,2 +1,2 @@
 -r common.txt
-sphinx==1.4.6
+sphinx==1.5.2

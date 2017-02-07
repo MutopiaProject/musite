@@ -16,7 +16,7 @@
 
   <!-- Lastest Additions -->
   <div class="col-sm-3 col-md-3">
-    <h3><a href="latestadditions.html">Latest Additions</a></h3>
+    <h3><a href="{% url 'latest_additions' %}">Latest Additions</a></h3>
     {% for addition in latest_list %}
     <p><b>{{addition.date_published}}</b> -
       <a href="{% url 'piece-info' addition.piece_id %}">{{addition.title}}, by {{addition.composer}} -
@@ -27,7 +27,7 @@
 
   <!-- Instruments -->
   <div class="col-sm-2 col-md-2">
-    <h3><a href="instruments.html">Instruments</a></h3>
+    <h3><a href="{% url 'browse' %}#byInstrument">Instruments</a></h3>
     <div class="browse-list">
       <ul>
         {% for i in instruments %}
@@ -40,7 +40,7 @@
 
   <!-- Composer -->
   <div class="col-sm-2 col-md-2">
-    <h3><a href="composers.html">Composers</a></h3>
+    <h3><a href="{% url 'browse' %}#byComposer">Composers</a></h3>
     <div class="browse-list">
       <ul>
         {% for c in composers %}
@@ -66,7 +66,7 @@
 
   <!-- Collections -->
   <div class="col-sm-3">
-    <h3><a href="collections.html" alt="Show all collections">Collections</a></h3>
+    <h3><a href="{% url 'browse' %}" alt="Show all collections">Collections</a></h3>
     <div class="browse-list">
       <ul>
         {% for c in collections %}

@@ -91,12 +91,63 @@ This update process is embodied in an application management command
 called ``update.dbupdate``.
 
 
-Updating FTS
-~~~~~~~~~~~~
-Because free text search is implemented as a *materialized view* it
-can be recreated or refreshed at any time but does not have its own
-fixture. An additional management command, ``postgres_fts`` is
-provided to create the view from scratch or refresh it. ::
+Collections
+~~~~~~~~~~~
+Collections can be specific to a composer (an opus) or sets
+of related pieces (The Gimo Collection). The database supports these
+collections with a ``mutopia_collection`` table with these attributes,
 
-  (musite) $ python manage.py postgres_fts
-  (musite) $ python manage.py postgres_fts --refresh
++---------+---------------------------------------------+
+|Column   | Description                                 |
++=========+=============================================+
+|tag      | Primary key, unique name for the collection |
++---------+---------------------------------------------+
+|title    | Collection title                            |
++---------+---------------------------------------------+
+
+It is possible for a piece to belong to more than one collection so
+there is an M:M relationship between collections and pieces. This
+relationship is provided by another table but is relatively invisible
+to the user. This is easier to understand with a use case.
+
+**Use-case:** Recently I transcribed Matteo Carcassi's Opus 1, *Trois
+Sonatines* and, after submission and publication, it is possible to
+create a collection of this small opus. I will need the following
+information,
+
+ - For a tag name I chose "carcassiopus1". Note that this is not seen
+   by the user but may be used to identify a folder with extended
+   information about the collection.
+ - A title for the collection ("Carcassi Opus 1, Trois Sonatines")
+ - the ``piece_id`` for each of these pieces.
+
+There are a number of ways to get the related ``piece_id`` values that
+make up the collection. One way is to select **Latest Additions** on
+the home page to get a list of recent submissions. By hovering the
+mouse over the entries you can visually parse the ``piece_id``. Since
+I have access to the database and it is simple to do this query based
+on the date published (I knew they were recent), I used ``psql``, ::
+
+  $ mutodb
+  mutodb=> select piece_id,composer_id,opus,title
+  mutodb->    from mutopia_piece
+  mutodb->    order by date_published desc limit 5;
+   piece_id | composer_id |    opus     |         title
+  ----------+-------------+-------------+------------------------
+       2169 | CarcassiM   | Op. 1 No. 2 | Trois Sonatines, No. 2
+       2170 | CarcassiM   | Op. 1 No. 3 | Trois Sonatines, No. 3
+       2165 | CarcassiM   | Op. 1 No. 1 | Trois Sonatines, No. 1
+       2168 | ChopinFF    | Op 28, No 9 | Prélude 9
+       2166 | ChopinFF    | Op 28, No 8 | Prélude 8
+  (5 rows)
+
+Now we can use the website admin page to create the new collection.
+
+ - Login into the admin.
+ - Under **Mutopia** select ``+ Add`` on the line for **Collections**
+ - Enter the tag and title.
+ - In **Pieces:** , enter the ``piece_id`` values separated by commas
+   in the order you want the pieces to appear. This allows you to
+   "fix" situations where pieces are published out of order.
+ - Select **Save**
+ - View and review on the site. Edits can be made if necessary.
