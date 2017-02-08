@@ -93,40 +93,31 @@ called ``update.dbupdate``.
 
 Collections
 ~~~~~~~~~~~
-Collections can be specific to a composer (an opus) or sets
-of related pieces (The Gimo Collection). The database supports these
-collections with a ``mutopia_collection`` table with these attributes,
 
-+---------+---------------------------------------------+
-|Column   | Description                                 |
-+=========+=============================================+
-|tag      | Primary key, unique name for the collection |
-+---------+---------------------------------------------+
-|title    | Collection title                            |
-+---------+---------------------------------------------+
+Collections can be specific to a composer (an opus) or sets of related
+pieces (The Gimo Collection). Adding or modifying a collection is not
+so complicated but it is done manually. As shown in the
+:ref:`database class diagram <db-class-diagram>`, a ``Collection`` is
+shown as optional to a ``Piece`` (0..n) and has an M:M relationship.
 
-It is possible for a piece to belong to more than one collection so
-there is an M:M relationship between collections and pieces. This
-relationship is provided by another table but is relatively invisible
-to the user. This is easier to understand with a use case.
-
-**Use-case:** Recently I transcribed Matteo Carcassi's Opus 1, *Trois
-Sonatines* and, after submission and publication, it is possible to
-create a collection of this small opus. I will need the following
-information,
+**Use-case:** I've transcribed Matteo Carcassi's Opus 1, *Trois
+Sonatines* as 3 separate files and, after submission and publication,
+it is possible to create a collection of this small opus. I will
+come up with a unique tag name, title, and the integer part of the
+piece identifiers for this collection
 
  - For a tag name I chose "carcassiopus1". Note that this is not seen
    by the user but may be used to identify a folder with extended
    information about the collection.
  - A title for the collection ("Carcassi Opus 1, Trois Sonatines")
- - the ``piece_id`` for each of these pieces.
 
 There are a number of ways to get the related ``piece_id`` values that
 make up the collection. One way is to select **Latest Additions** on
 the home page to get a list of recent submissions. By hovering the
-mouse over the entries you can visually parse the ``piece_id``. Since
-I have access to the database and it is simple to do this query based
-on the date published (I knew they were recent), I used ``psql``, ::
+mouse over the entries you can visually parse the integer
+``piece_id``. Since I have access to the database and it is simple to
+do this query based on the date published (I knew they were recent)
+using ``psql``. The following SQL gets the 5 most recent submissions, ::
 
   $ mutodb
   mutodb=> select piece_id,composer_id,opus,title

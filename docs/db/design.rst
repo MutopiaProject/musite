@@ -12,8 +12,10 @@ Design Details
 
 The best start to a discussion on design is an entity relationship diagram.
 
+.. _db-class-diagram:
+
 .. image:: ../graphics/db-design.svg
-   :width: 75%
+   :width: 100%
    :align: center
 
 The classes in the diagram shadow the model defined for this project

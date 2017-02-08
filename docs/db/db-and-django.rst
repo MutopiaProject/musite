@@ -28,18 +28,33 @@ shell command provided by |django|, ::
   [<LPVersion: 2.8.1>, <LPVersion: 2.16.1>]
   >>>
 
-.. note::
+To access the web-site database is very similar, ::
 
-   Throughout these examples, you will need to use the virtual
-   environment that you built for this project.
+  $ (musite) $ python manage.py dbshell
+  mudb=>
 
-This is great for checking things out but that can get a little clumsy
-when writing larger applications. What would be ideal is if you could
-write in an editor and run the program from the command line. The
-problem to overcome is that you will have to somehow get the |django|
-frameworks loaded so it works as expected. There is more than one way
-to do that but the simplest I've found is to create a management
-command.
+In a production AWS environment you will have to use something like
+the script below on the ElasticBeanstalk EC2 to get to a similar space. ::
+
+  #!/bin/sh
+  source /opt/python/run/venv/bin/activate
+  source /opt/python/current/env
+  python /opt/python/current/app/manage.py dbshell
+
+The first two ``source`` commands simply activate the virtual
+environment and set the necessary environment that we have defined for
+the django application, including important things like database
+details.
+
+Django Management Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is great for checking things out but sometimes you need more
+complex application. What would be ideal is if you could write in an
+editor and run the program from the command line. The problem to
+overcome is that you will have to somehow get the |django| frameworks
+loaded so it works as expected. There is more than one way to do that
+but the simplest I've found is to create a management command.
 
 A management command lives under your application area in a predefined
 location and then is run from :file:`manage.py`. Your code will create a
@@ -64,16 +79,14 @@ To run ``hello.py`` you would run it like you would run other
   (musite) $ python manage.py hello
   Hello world!
 
-
-Version counts
-~~~~~~~~~~~~~~
-
-As a first example I chose to duplicate the tutorial of how to do this
-in SQL. Not surprisingly, one is probably no more complicated than the
-other depending on your familiarity with python or SQL. When I look at
-the final SQL it is not that complicated. Instead of explaining this
-python example in tiny steps, the final code is presented and we'll
-walk through how it works. I've included the complete working program.
+As a first example I chose to duplicate the
+:ref:`SQL tutorial on version counting <counting-versions>`.
+Not surprisingly, one is probably no more complicated than
+the other depending on your familiarity with python or SQL. When I
+look at the final SQL it is not that complicated. Instead of
+explaining this python example in tiny steps, the final code is
+presented and we'll walk through how it works. I've included the
+complete working program.
 
 .. literalinclude:: versions.py
    :linenos:
