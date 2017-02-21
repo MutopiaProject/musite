@@ -27,13 +27,28 @@ _IGNORES = {'Makefile', '.gitignore'}
 
 @csrf_exempt
 def push_hook(request):
-    """A push-hook template.
+    """A github push hook for recording pending site updates.
 
-    Add the URL pointing to this method as a GITHUB webhook. String
-    content in the response object can be viewed in the webhook log.
+    This is a django view targeted to respond to be "hooked" to a
+    github repository push command. When a push arrives, the
+    appropriate ``AssetMap`` entity is found (or created) and is
+    marked for update.
 
     :param request: defines protocol for adding method to urls.py
     :returns: An HttpResponse object.
+
+    The hook is assigned in the sites github repository,
+
+      - Select `Setting`
+      - Select `Webhooks`
+      - Select `Add webhook`
+      - Add the url of this hook as the `Payload`, i.e.,
+        `<site-url>/github/push_hook`.
+      - Change `Content type` to `application/json`
+      - The only event needed is the `push event`
+
+    String content in the response object can be viewed in the webhook
+    log.
 
     """
     # make sure our expections are met

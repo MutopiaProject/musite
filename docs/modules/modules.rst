@@ -6,3 +6,4 @@ Modules
 
    mutopia
    update
+   github

@@ -1,5 +1,4 @@
 requirements:
-	pip install -r requirements/common.txt
 	pip install -r requirements/development.txt
 
 test:

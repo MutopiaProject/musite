@@ -25,24 +25,9 @@ update.models module
     :members:
     :show-inheritance:
 
-update.urls module
-------------------
-
-.. automodule:: update.urls
-    :members:
-    :show-inheritance:
-
 update.views module
 -------------------
 
 .. automodule:: update.views
-    :members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: update
     :members:
     :show-inheritance:

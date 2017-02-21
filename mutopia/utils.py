@@ -23,7 +23,6 @@ __all__ = [
     'MUTOPIA_URL',
     'FTP_URL',
     'GITHUB_REPOS',
-    'id_from_footer',
 ]
 
 

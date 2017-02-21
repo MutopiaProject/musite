@@ -40,27 +40,10 @@ todo_include_todos = False
 
 # -- Options for HTML output ----------------------------------------------
 
-html_theme = 'alabaster'
-
-html_theme_options = {
-    'logo': 'mutopia-logo.svg',
-    'logo_name': False,
-    'fixed_sidebar': True,
-}
-
-#html_logo = 'graphics/mutopia-logo.svg'
+html_theme = 'sphinx_rtd_theme'
 html_favicon = 'graphics/favicon.ico'
 
 html_static_path = ['_static', 'graphics', ]
-
-html_sidebars = {
-    '**': [
-        'about.html',
-        'navigation.html',
-        'relations.html',
-        'searchbox.html',
-    ]
-}
 
 #mupub_path = os.path.abspath('../../mupub/docs/_build/html')
 mupub_path = 'http://mutopia-rewrite.readthedocs.io/en/latest/'
