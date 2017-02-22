@@ -28,8 +28,8 @@ year = datetime.now().year
 copyright = u'%d, The Mutopia Project' % year
 author = 'Glen Larsen'
 
-version = '1.0'
-release = '1.0.1'
+version = '1.1'
+release = '1.1.0'
 
 language = None
 
@@ -40,12 +40,13 @@ todo_include_todos = False
 
 # -- Options for HTML output ----------------------------------------------
 
-html_theme = 'sphinx_rtd_theme'
-html_favicon = 'graphics/favicon.ico'
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+if not on_rtd:
+    html_theme = 'sphinx_rtd_theme'
 
 html_static_path = ['_static', 'graphics', ]
 
-#mupub_path = os.path.abspath('../../mupub/docs/_build/html')
 mupub_path = 'http://mutopia-rewrite.readthedocs.io/en/latest/'
 intersphinx_mapping = { 'python': ('https://docs.python.org/3', None),
                         'mupub': (mupub_path, None), }
