@@ -16,11 +16,14 @@ def _get_asset_info(infile):
             break
         if part.endswith('.ly'):
             break
+        if part.endswith('.ily'):
+            break
         fvec.append(part)
     return ('/'.join(fvec), has_lys)
 
 
 _IGNORES = {'Makefile', '.gitignore'}
+
 
 # Note that we need csrf_exempt here because the request will not come
 # from a django form.
@@ -99,6 +102,6 @@ def push_hook(request):
             jbuffer.write(folder)
             jbuffer.write('\n')
     else:
-        jbuffer.write('No commits to process.\n')        
+        jbuffer.write('No commits to process.\n')
 
     return HttpResponse(jbuffer.getvalue())
