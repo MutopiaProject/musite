@@ -148,4 +148,4 @@ class SearchTerm(models.Model):
 
         # The results from manual queries do not return true QuerySets
         # so these are translated for the caller with a filter.
-        return Piece.objects.filter(pk__in=results)
+        return Piece.objects.filter(pk__in=results).order_by('-piece_id')
