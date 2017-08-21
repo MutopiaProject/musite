@@ -1,12 +1,12 @@
 -r common.txt
-coverage==4.1
-pylint==1.6.4
+coverage==4.4.1
+pylint==1.7.2
 pylint-django==0.7.2
-pylint-plugin-utils==0.2.4
-sphinx==1.5.2
+pylint-plugin-utils==0.2.6
+sphinx==1.6.3
 docutils>=0.10
 setuptools>=20.0
-sphinx-rtd-theme==0.1.9
+sphinx-rtd-theme==0.2.4
 
 # nascient: amazon services
 # boto3

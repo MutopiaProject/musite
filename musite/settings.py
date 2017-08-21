@@ -85,7 +85,7 @@ class Common(Configuration):
             'USER': 'muuser',
             'PASSWORD': 'mumusic',
             'HOST': 'localhost',
-            'PORT': '5433',
+            'PORT': '5432',
         }
     }
 
